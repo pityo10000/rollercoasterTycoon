@@ -2,14 +2,12 @@ package rollercoastertycoon;
 
 import rollercoastertycoon.game.Difficulty;
 import rollercoastertycoon.game.Game;
-import rollercoastertycoon.game.GameCommander;
-
-import java.util.Random;
+import rollercoastertycoon.game.GameController;
 
 public class Application {
     public static void main(String[] args) {
         Game.init(Difficulty.EASY);
-        new GameCommander().processCommand();
+        new GameController().processCommand();
 
     }
 }

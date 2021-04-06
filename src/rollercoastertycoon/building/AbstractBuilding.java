@@ -12,8 +12,13 @@ public abstract class AbstractBuilding implements Building {
 
     @Override
     public void build() {
-        built = true;
-        System.out.println(getName() + " has built!");
+        if (Game.isPricePayable(price)) {
+            Game.pay(price);
+            built = true;
+            System.out.println(getName() + " has built!");
+        } else {
+            System.out.println("You don't have enough money to build a " + getName());
+        }
     }
 
     @Override
@@ -21,10 +26,15 @@ public abstract class AbstractBuilding implements Building {
         if (upgradeLevel == 10) {
             throw new GameException(getName() + " has reached maximum upgrade level!");
         }
-        upgradeLevel++;
-        price = price * 2;
-        incomePerVisitor += getDefaultIncomePerVisitor();
-        System.out.println(getName() + " has upgraded!");
+        if (Game.isPricePayable(price)) {
+            Game.pay(price);
+            upgradeLevel++;
+            price = price * 2;
+            incomePerVisitor += getDefaultIncomePerVisitor();
+            System.out.println(getName() + " has upgraded!");
+        } else {
+            System.out.println("You don't have enough money to upgrade the " + getName());
+        }
     }
 
     @Override
@@ -57,7 +67,20 @@ public abstract class AbstractBuilding implements Building {
         }
     }
 
-    abstract String getName();
+    @Override
+    public int getPrice() {
+        return price;
+    }
+
+    @Override
+    public boolean isBuilt() {
+        return built;
+    }
+
+    @Override
+    public int getUpgradeLevel() {
+        return upgradeLevel;
+    }
 
     abstract int getDefaultPriceEasy();
     abstract int getDefaultPriceMedium();
