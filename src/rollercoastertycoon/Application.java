@@ -6,8 +6,10 @@ import rollercoastertycoon.game.GameController;
 
 public class Application {
     public static void main(String[] args) {
-        Game.init(Difficulty.EASY);
-        new GameController().processCommand();
+        GameController controller = new GameController();
+        Difficulty difficulty = controller.askDifficulty();
+        Game.init(difficulty);
+        controller.processCommands();
 
     }
 }

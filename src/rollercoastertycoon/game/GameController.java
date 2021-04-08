@@ -18,59 +18,86 @@ public class GameController {
         return GameCommand.UNKNOWN_COMMAND;
     }
 
-    public void processCommand() {
+    public Difficulty askDifficulty() {
+        System.out.println("Welcome to Rollercoaster Tycoon v1.0");
+        System.out.println("Choose difficulty (EASY, MEDIUM, HARD)");
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase(GameCommand.EXIT.getCommand())) {
+                System.exit(0);
+            }
+            for (Difficulty difficulty : Difficulty.values()) {
+                if (difficulty.name().equalsIgnoreCase(input)) {
+                    return difficulty;
+                }
+            }
+            System.out.println("Unknown difficulty! Try again (EASY, MEDIUM, HARD)!");
+        }
+    }
+
+    public void processCommands() {
         while (true) {
             GameCommand gameCommand = askCommand();
             switch (gameCommand) {
                 case BUILD_CAROUSEL:
                     Game.getCarousel().build();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case BUILD_BOAT_LAKE:
                     Game.getBoatLake().build();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case BUILD_COTTON_CANDY_VENDOR:
                     Game.getCottonCandyVendor().build();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case BUILD_GHOST_TRAIN:
                     Game.getGhostTrain().build();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case BUILD_ROLLER_COASTER:
                     Game.getRollerCoaster().build();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case UPGRADE_CAROUSEL:
                     Game.getCarousel().upgrade();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case UPGRADE_BOAT_LAKE:
                     Game.getBoatLake().upgrade();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case UPGRADE_COTTON_CANDY_VENDOR:
                     Game.getCottonCandyVendor().upgrade();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case UPGRADE_GHOST_TRAIN:
                     Game.getGhostTrain().upgrade();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case UPGRADE_ROLLER_COASTER:
                     Game.getRollerCoaster().upgrade();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
+                    break;
+                case ACTIVATE_AD_SENSE:
+                    Game.getAdSense().activate();
+                    Game.printAllStatuses();
+                    break;
+                case ACTIVATE_BILL_BOARD:
+                    Game.getBillBoard().activate();
+                    Game.printAllStatuses();
+                    break;
+                case ACTIVATE_FLYER:
+                    Game.getFlyer().activate();
+                    Game.printAllStatuses();
+                    break;
+                case ACTIVATE_NEWSPAPER:
+                    Game.getNewspaper().activate();
+                    Game.printAllStatuses();
+                    break;
+                case ACTIVATE_TELEVISION:
+                    Game.getTelevision().activate();
+                    Game.printAllStatuses();
                     break;
                 case HIRE_MAINTAINER:
                     break;
@@ -86,13 +113,15 @@ public class GameController {
                 case PRINT_BUILDING_STATUS:
                     Game.printBuildingStatus();
                     break;
+                case PRINT_ADVERT_STATUS:
+                    Game.printAdvertStatus();
+                    break;
                 case EXIT:
                     System.exit(0);
                     break;
                 case NEXT_TURN:
                     Game.nextTurn();
-                    Game.printFinanceStatus();
-                    Game.printBuildingStatus();
+                    Game.printAllStatuses();
                     break;
                 case MOTHERLOAD:
                     Game.addEstate(1_000_000);

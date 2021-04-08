@@ -1,9 +1,14 @@
 package rollercoastertycoon.advert;
 
 public interface Advert {
-    void buy();
+    String getName();
+    void activate();
+    boolean isActive();
+    void calculateDailyVisitors();
+    int getDailyVisitors();
     int getPrice();
-    int getDefaultDailyVisitory();
-    int getTimePeriod();
+    double getDefaultDailyVisitorsEfficiency();
+    int getDefaultRemainingTime();
+    int getRemainingDays();
 
 }

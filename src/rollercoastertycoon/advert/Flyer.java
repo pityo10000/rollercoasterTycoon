@@ -1,6 +1,7 @@
 package rollercoastertycoon.advert;
 
 public class Flyer extends AbstractAdvert {
+    private static final String NAME = "Flyer";
     private static final int DEFAULT_PRICE_EASY = 1_000;
     private static final int DEFAULT_PRICE_MEDIUM = 2_000;
     private static final int DEFAULT_PRICE_HARD = 4_000;
@@ -40,7 +41,12 @@ public class Flyer extends AbstractAdvert {
     }
 
     @Override
-    public int getTimePeriod() {
+    public int getDefaultRemainingTime() {
         return TIME_PERIOD;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

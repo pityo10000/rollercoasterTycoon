@@ -1,6 +1,7 @@
 package rollercoastertycoon.advert;
 
 public class AdSense extends AbstractAdvert {
+    private static final String NAME = "AdSense";
     private static final int DEFAULT_PRICE_EASY = 256_000;
     private static final int DEFAULT_PRICE_MEDIUM = 512_000;
     private static final int DEFAULT_PRICE_HARD = 1_024_000;
@@ -40,7 +41,12 @@ public class AdSense extends AbstractAdvert {
     }
 
     @Override
-    public int getTimePeriod() {
+    public int getDefaultRemainingTime() {
         return TIME_PERIOD;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

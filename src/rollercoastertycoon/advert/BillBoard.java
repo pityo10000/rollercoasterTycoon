@@ -1,6 +1,7 @@
 package rollercoastertycoon.advert;
 
 public class BillBoard extends AbstractAdvert {
+    private static final String NAME = "Bill board";
     private static final int DEFAULT_PRICE_EASY = 16_000;
     private static final int DEFAULT_PRICE_MEDIUM = 32_000;
     private static final int DEFAULT_PRICE_HARD = 64_000;
@@ -40,7 +41,12 @@ public class BillBoard extends AbstractAdvert {
     }
 
     @Override
-    public int getTimePeriod() {
+    public int getDefaultRemainingTime() {
         return TIME_PERIOD;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

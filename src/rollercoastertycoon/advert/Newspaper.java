@@ -1,6 +1,7 @@
 package rollercoastertycoon.advert;
 
-public class NewsPaper extends AbstractAdvert {
+public class Newspaper extends AbstractAdvert {
+    private static final String NAME = "Newspaper";
     private static final int DEFAULT_PRICE_EASY = 4_000;
     private static final int DEFAULT_PRICE_MEDIUM = 8_000;
     private static final int DEFAULT_PRICE_HARD = 16_000;
@@ -40,7 +41,12 @@ public class NewsPaper extends AbstractAdvert {
     }
 
     @Override
-    public int getTimePeriod() {
+    public int getDefaultRemainingTime() {
         return TIME_PERIOD;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

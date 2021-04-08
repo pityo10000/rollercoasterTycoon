@@ -1,6 +1,7 @@
 package rollercoastertycoon.advert;
 
 public class Television extends AbstractAdvert {
+    private static final String NAME = "Television";
     private static final int DEFAULT_PRICE_EASY = 64_000;
     private static final int DEFAULT_PRICE_MEDIUM = 128_000;
     private static final int DEFAULT_PRICE_HARD = 256_000;
@@ -40,7 +41,12 @@ public class Television extends AbstractAdvert {
     }
 
     @Override
-    public int getTimePeriod() {
+    public int getDefaultRemainingTime() {
         return TIME_PERIOD;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }
