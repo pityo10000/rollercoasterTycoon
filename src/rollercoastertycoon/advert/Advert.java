@@ -5,9 +5,9 @@ public interface Advert {
     void activate();
     boolean isActive();
     void calculateDailyVisitors();
-    int getDailyVisitors();
+    int getNewDailyVisitors();
     int getPrice();
-    double getDefaultDailyVisitorsEfficiency();
+    double getDefaultNewDailyVisitors();
     int getDefaultRemainingTime();
     int getRemainingDays();
 

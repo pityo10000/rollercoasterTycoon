@@ -1,16 +1,18 @@
 package rollercoastertycoon.accident;
 
-public class BadTasteCottonCandy extends AbstractAccident {
+import rollercoastertycoon.game.Game;
+
+public class BadTasteCottonCandy extends AbstractMaintainableAccident {
     private static final int COST = 1_000;
     private static final int VISITOR_DECREASE_PERCENTAGE = 0;
     private static final float PROBABILITY_EASY = 16.0f;
     private static final float PROBABILITY_MEDIUM = 24.0f;
     private static final float PROBABILITY_HARD = 36.0f;
+    private static final String MESSAGE = "A cotton candy had bad taste!";
 
     @Override
-    public void happen() {
-        super.happen();
-
+    public String getMessage() {
+        return MESSAGE;
     }
 
     @Override
@@ -36,5 +38,10 @@ public class BadTasteCottonCandy extends AbstractAccident {
     @Override
     public float getProbabilityHard() {
         return PROBABILITY_HARD;
+    }
+
+    @Override
+    public boolean isAbleToHapen() {
+        return Game.getCottonCandyVendor().isBuilt();
     }
 }

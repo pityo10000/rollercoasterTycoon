@@ -1,15 +1,18 @@
 package rollercoastertycoon.accident;
 
-public class BoatSink extends AbstractAccident {
+import rollercoastertycoon.game.Game;
+
+public class BoatSink extends AbstractMaintainableAccident {
     private static final int COST = 50_000;
     private static final int VISITOR_DECREASE_PERCENTAGE = 10;
     private static final float PROBABILITY_EASY = 4.0f;
     private static final float PROBABILITY_MEDIUM = 6.0f;
     private static final float PROBABILITY_HARD = 9.0f;
+    private static final String MESSAGE = "A boat has sank!";
 
     @Override
-    public void happen() {
-
+    public String getMessage() {
+        return MESSAGE;
     }
 
     @Override
@@ -35,5 +38,10 @@ public class BoatSink extends AbstractAccident {
     @Override
     public float getProbabilityHard() {
         return PROBABILITY_HARD;
+    }
+
+    @Override
+    public boolean isAbleToHapen() {
+        return Game.getBoatLake().isBuilt();
     }
 }

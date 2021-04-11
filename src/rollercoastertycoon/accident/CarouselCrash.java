@@ -1,15 +1,18 @@
 package rollercoastertycoon.accident;
 
-public class CarouselCrash extends AbstractAccident {
+import rollercoastertycoon.game.Game;
+
+public class CarouselCrash extends AbstractMaintainableAccident {
     private static final int COST = 50_000;
     private static final int VISITOR_DECREASE_PERCENTAGE = 5;
     private static final float PROBABILITY_EASY = 8.0f;
     private static final float PROBABILITY_MEDIUM = 12.0f;
     private static final float PROBABILITY_HARD = 18.0f;
+    private static final String MESSAGE = "The carousel had a crash!";
 
     @Override
-    public void happen() {
-
+    public String getMessage() {
+        return MESSAGE;
     }
 
     @Override
@@ -35,5 +38,10 @@ public class CarouselCrash extends AbstractAccident {
     @Override
     public float getProbabilityHard() {
         return PROBABILITY_HARD;
+    }
+
+    @Override
+    public boolean isAbleToHapen() {
+        return Game.getCarousel().isBuilt();
     }
 }

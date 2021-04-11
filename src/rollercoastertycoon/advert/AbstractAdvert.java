@@ -5,7 +5,7 @@ import rollercoastertycoon.game.Game;
 
 public abstract class AbstractAdvert implements Advert {
     protected boolean active = false;
-    protected double newVisitorsEfficiency = getDefaultDailyVisitorsEfficiency();
+    protected double newDailyVisitors = getDefaultNewDailyVisitors();
     protected int remainingDays = getDefaultRemainingTime();
 
     @Override
@@ -34,24 +34,26 @@ public abstract class AbstractAdvert implements Advert {
         if (active) {
             if (0 < remainingDays) {
                 remainingDays--;
-                newVisitorsEfficiency /= 1.1;
+                newDailyVisitors /= 1.1;
+                Game.addDailyVisitors(getNewDailyVisitors());
             }
             if (remainingDays == 0) {
                 active = false;
+                remainingDays = getDefaultRemainingTime();
             }
         } else {
-            if (newVisitorsEfficiency < getDefaultDailyVisitorsEfficiency()) {
-                newVisitorsEfficiency *= 1.1;
+            if (newDailyVisitors < getDefaultNewDailyVisitors()) {
+                newDailyVisitors *= 1.1;
             }
-            if (getDefaultDailyVisitorsEfficiency() < newVisitorsEfficiency) {
-                newVisitorsEfficiency = getDefaultDailyVisitorsEfficiency();
+            if (getDefaultNewDailyVisitors() < newDailyVisitors) {
+                newDailyVisitors = getDefaultNewDailyVisitors();
             }
         }
     }
 
     @Override
-    public int getDailyVisitors() {
-        return (int) newVisitorsEfficiency;
+    public int getNewDailyVisitors() {
+        return (int) newDailyVisitors;
     }
 
     @Override
@@ -70,7 +72,7 @@ public abstract class AbstractAdvert implements Advert {
     }
 
     @Override
-    public double getDefaultDailyVisitorsEfficiency() {
+    public double getDefaultNewDailyVisitors() {
         double defaultDailyVisitors;
 
         Difficulty difficulty = Game.getDifficulty();

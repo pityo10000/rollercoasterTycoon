@@ -7,10 +7,11 @@ public class TaxAuthorityPenalty extends AbstractAccident {
     private static final float PROBABILITY_EASY = 0;
     private static final float PROBABILITY_MEDIUM = 0;
     private static final float PROBABILITY_HARD = 0;
+    private static final String MESSAGE = "The Tax Authority gave a penalty!";
 
     @Override
-    public void happen() {
-
+    public String getMessage() {
+        return MESSAGE;
     }
 
     @Override
@@ -37,5 +38,10 @@ public class TaxAuthorityPenalty extends AbstractAccident {
     @Override
     public float getProbabilityHard() {
         return PROBABILITY_HARD;
+    }
+
+    @Override
+    public boolean isAbleToHapen() {
+        return true;
     }
 }

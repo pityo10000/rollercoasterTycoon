@@ -11,8 +11,4 @@ public class Maintainer extends AbstractEmployee {
     public int getProbabilityPercentage() {
         return probabilityPercentage;
     }
-
-    public void setProbabilityPercentage(int probabilityPercentage) {
-        this.probabilityPercentage = probabilityPercentage;
-    }
 }

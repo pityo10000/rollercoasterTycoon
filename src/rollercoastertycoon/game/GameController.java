@@ -1,21 +1,17 @@
 package rollercoastertycoon.game;
 
+import rollercoastertycoon.employee.EmployeeFacade;
+import rollercoastertycoon.util.TextColorUtil;
+
 import java.util.Scanner;
 
 public class GameController {
     private final Scanner scanner = new Scanner(System.in);
 
-    public GameCommand askCommand() {
+    public String askCommand() {
         System.out.println("----------------------------------------");
         System.out.println("What's your next decision?");
-        String inputCommand = scanner.nextLine();
-        for (GameCommand gameCommand : GameCommand.values()) {
-            if (gameCommand.getCommand().equalsIgnoreCase(inputCommand)) {
-                return gameCommand;
-            }
-        }
-
-        return GameCommand.UNKNOWN_COMMAND;
+        return scanner.nextLine();
     }
 
     public Difficulty askDifficulty() {
@@ -37,7 +33,15 @@ public class GameController {
 
     public void processCommands() {
         while (true) {
-            GameCommand gameCommand = askCommand();
+            String command = askCommand();
+            if (checkAndProcessHireCommand(command)) {
+                continue;
+            }
+            if (checkAndProcessFireCommand(command)) {
+                continue;
+            }
+
+            GameCommand gameCommand = stringToGameCommand(command);
             switch (gameCommand) {
                 case BUILD_CAROUSEL:
                     Game.getCarousel().build();
@@ -99,14 +103,6 @@ public class GameController {
                     Game.getTelevision().activate();
                     Game.printAllStatuses();
                     break;
-                case HIRE_MAINTAINER:
-                    break;
-                case HIRE_ACCOUNTANT:
-                    break;
-                case FIRE_MAINTAINER:
-                    break;
-                case FIRE_ACCOUNTANT:
-                    break;
                 case PRINT_FINANCE_STATUS:
                     Game.printFinanceStatus();
                     break;
@@ -131,4 +127,68 @@ public class GameController {
             }
         }
     }
+
+    private static boolean checkAndProcessHireCommand(String command) {
+        String[] commandParts = command.split(" ");
+        if (commandParts.length != 2) {
+            return false;
+        }
+        if (!GameCommand.HIRE.getCommand().equalsIgnoreCase((commandParts[0]))) {
+            return false;
+        }
+        try {
+            int position = Integer.parseInt(commandParts[1]);
+            switch (position) {
+                case 1:
+                    EmployeeFacade.hireMaintainer(1);
+                    break;
+                case 2:
+                    EmployeeFacade.hireMaintainer(2);
+                    break;
+                case 3:
+                    EmployeeFacade.hireMaintainer(3);
+                    break;
+                case 4:
+                    EmployeeFacade.hireAccountant();
+                    break;
+                default:
+                    System.out.println(TextColorUtil.textToRed("Unknown employee!"));
+            }
+            Game.printAllStatuses();
+        } catch (NumberFormatException e) {
+            System.out.println(TextColorUtil.textToRed("Unknown employee!"));
+        }
+        return true;
+    }
+
+    private static boolean checkAndProcessFireCommand(String command) {
+        String[] commandParts = command.split(" ");
+        if (commandParts.length != 2) {
+            return false;
+        }
+        if (!GameCommand.FIRE.getCommand().equalsIgnoreCase(commandParts[0])) {
+            return false;
+        }
+        try {
+            int position = Integer.parseInt(commandParts[1]);
+            EmployeeFacade.fire(position);
+            Game.printAllStatuses();
+        } catch (NumberFormatException e) {
+            System.out.println(TextColorUtil.textToRed("Unrecognized position!"));
+        }
+        return true;
+    }
+
+    private static GameCommand stringToGameCommand(String inputCommand) {
+        for (GameCommand gameCommand : GameCommand.values()) {
+            if (gameCommand.getCommand().equalsIgnoreCase(inputCommand)) {
+                return gameCommand;
+            }
+        }
+
+        return GameCommand.UNKNOWN_COMMAND;
+    }
+
+
+
 }

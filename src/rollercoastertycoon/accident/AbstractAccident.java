@@ -2,6 +2,7 @@ package rollercoastertycoon.accident;
 
 import rollercoastertycoon.game.Difficulty;
 import rollercoastertycoon.game.Game;
+import rollercoastertycoon.util.TextColorUtil;
 
 import java.util.Random;
 
@@ -9,13 +10,16 @@ abstract class AbstractAccident implements Accident {
     private static final Random RANDOM = new Random();
 
     public void happen() {
-        float randomNumber = (RANDOM.nextFloat() * 100) + 1;
-        if (randomNumber <= getProbability()) {
-            System.out.println(this.getClass().getName() + " happened");
-        } else {
-            System.out.println("Nothing happened!");
+        if (!isAbleToHapen()) {
+            return;
         }
 
+        float randomNumber = (RANDOM.nextFloat() * 100) + 1;
+        if (randomNumber <= getProbability()) {
+            Game.pay(getCost());
+            Game.reduceDailyVisitorsByPercentage(getVisitorDecreasePercentage());
+            System.out.println(TextColorUtil.textToRed(getMessage()));
+        }
     }
 
     public float getProbability() {

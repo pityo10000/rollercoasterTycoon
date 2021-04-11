@@ -1,6 +1,6 @@
 package rollercoastertycoon.employee;
 
-abstract class AbstractEmployee {
+abstract class AbstractEmployee implements Employee {
     private final int costPercentage;
 
     private String name;
@@ -9,6 +9,7 @@ abstract class AbstractEmployee {
         this.costPercentage = costPercentage;
     }
 
+    @Override
     public int getCostPercentage() {
         return costPercentage;
     }
