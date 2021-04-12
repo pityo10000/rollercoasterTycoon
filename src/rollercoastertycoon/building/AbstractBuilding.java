@@ -12,6 +12,10 @@ public abstract class AbstractBuilding implements Building {
 
     @Override
     public void build() {
+        if (isBuilt()) {
+            System.out.println("The " + getName() + " is already built!");
+            return;
+        }
         if (Game.isPricePayable(price)) {
             Game.pay(price);
             built = true;
