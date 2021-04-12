@@ -3,7 +3,7 @@ package rollercoastertycoon.accident;
 import rollercoastertycoon.game.Game;
 
 public class CarouselCrash extends AbstractMaintainableAccident {
-    private static final int COST = 50_000;
+    private static final long COST = 50_000L;
     private static final int VISITOR_DECREASE_PERCENTAGE = 5;
     private static final float PROBABILITY_EASY = 8.0f;
     private static final float PROBABILITY_MEDIUM = 12.0f;
@@ -16,7 +16,7 @@ public class CarouselCrash extends AbstractMaintainableAccident {
     }
 
     @Override
-    public int getCost() {
+    public long getCost() {
         return COST;
     }
 

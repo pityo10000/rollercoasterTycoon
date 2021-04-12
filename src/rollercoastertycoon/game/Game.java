@@ -1,18 +1,28 @@
 package rollercoastertycoon.game;
 
-import rollercoastertycoon.accident.*;
+import rollercoastertycoon.accident.Accident;
+import rollercoastertycoon.accident.BadTasteCottonCandy;
+import rollercoastertycoon.accident.BoatSink;
+import rollercoastertycoon.accident.CarouselCrash;
+import rollercoastertycoon.accident.RollerCoasterCrash;
+import rollercoastertycoon.accident.TaxAuthorityPenalty;
 import rollercoastertycoon.advert.AdSense;
 import rollercoastertycoon.advert.Advert;
 import rollercoastertycoon.advert.BillBoard;
 import rollercoastertycoon.advert.Flyer;
 import rollercoastertycoon.advert.Newspaper;
 import rollercoastertycoon.advert.Television;
-import rollercoastertycoon.building.*;
+import rollercoastertycoon.building.BoatLake;
+import rollercoastertycoon.building.Building;
+import rollercoastertycoon.building.Carousel;
+import rollercoastertycoon.building.CottonCandyVendor;
+import rollercoastertycoon.building.GhostTrain;
+import rollercoastertycoon.building.RollerCoaster;
 import rollercoastertycoon.constants.EmployeeType;
-import rollercoastertycoon.constants.TextColor;
 import rollercoastertycoon.employee.EmployeeFacade;
 import rollercoastertycoon.util.TextColorUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +30,8 @@ public class Game {
     private static final int DEFAULT_DAILY_VISITORS = 10;
 
     private static Difficulty difficulty;
-    private static int estate = 250_000;
+    private static long estate = 250_000;
     private static int dailyVisitors = DEFAULT_DAILY_VISITORS;
-    private static int dailyVisitorsReduce = 0;
 
     private static Building cottonCandyVendor;
     private static Building carousel;
@@ -39,6 +48,8 @@ public class Game {
     private static final List<Advert> adverts = new ArrayList<>();
 
     private static final List<Accident> accidents = new ArrayList<>();
+
+    private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("###,###");
 
     public static void init(Difficulty difficulty) {
         Game.difficulty = difficulty;
@@ -87,6 +98,7 @@ public class Game {
     }
 
     public static void nextTurn() {
+        EmployeeFacade.payEmployees();
         handleAdverts();
         handleAccidents();
         estate += getProfit();
@@ -117,8 +129,8 @@ public class Game {
 
     public static void printFinanceStatus() {
         String financeStatus = "-------------Finance status-------------\n" +
-                "Estate: $" + getEstate() + "\n" +
-                "Profit: $" + getProfit() + "\n" +
+                "Estate: $" + NUMBER_FORMAT.format(getEstate()) + "\n" +
+                "Profit: $" + NUMBER_FORMAT.format(getProfit()) + "\n" +
                 "Daily visitors: " + getDailyVisitors() + "\n";
         System.out.println(financeStatus);
     }
@@ -131,11 +143,11 @@ public class Game {
                 StringBuilder buildingStatus = new StringBuilder().append(building.getName())
                         .append(" [Level: ").append(building.getUpgradeLevel()).append("] [");
                 if (building.getUpgradeLevel() < 10) {
-                    buildingStatus.append("Upgrade price: $").append(building.getPrice());
+                    buildingStatus.append("Upgrade price: $").append(NUMBER_FORMAT.format(building.getPrice()));
                 } else {
                     buildingStatus.append("Can't upgrade");
                 }
-                buildingStatus.append("] [Income: $").append(building.getDefaultIncomePerVisitor())
+                buildingStatus.append("] [Income: $").append(NUMBER_FORMAT.format(building.getIncomePerVisitor()))
                         .append("]");
                 System.out.println(TextColorUtil.textToGreen(buildingStatus.toString()));
             }
@@ -143,7 +155,7 @@ public class Game {
         System.out.println("\nNot built:");
         for (Building building : buildings) {
             if (!building.isBuilt()) {
-                String buildingStatus = building.getName() + " [Price: $" + building.getPrice() + "]";
+                String buildingStatus = building.getName() + " [Price: $" + NUMBER_FORMAT.format(building.getPrice()) + "]";
                 System.out.println(TextColorUtil.textToRed(buildingStatus));
             }
         }
@@ -163,7 +175,7 @@ public class Game {
         System.out.println("\nInactive:");
         for (Advert advert : adverts) {
             if (!advert.isActive()) {
-                String advertStatus = advert.getName() + " [Price: $" + advert.getPrice() +
+                String advertStatus = advert.getName() + " [Price: $" + NUMBER_FORMAT.format(advert.getPrice()) +
                         "] [Days: " + advert.getDefaultRemainingTime() + "] [Daily visitors: " +
                         advert.getNewDailyVisitors() + "]";
                 System.out.println(TextColorUtil.textToRed(advertStatus));
@@ -211,29 +223,29 @@ public class Game {
         int income = 0;
         for (Building building : buildings) {
             if (building.isBuilt()) {
-                income += (building.getDefaultIncomePerVisitor() * getDailyVisitors());
+                income += (building.getIncomePerVisitor() * getDailyVisitors());
             }
         }
         return income;
     }
 
     private static int getCosts() {
-        return 0;
+        return EmployeeFacade.getEmployeeSalaries();
     }
 
     public static Difficulty getDifficulty() {
         return difficulty;
     }
 
-    public static int getEstate() {
+    public static long getEstate() {
         return estate;
     }
 
-    public static void addEstate(int estate) {
+    public static void addEstate(long estate) {
         Game.estate += estate;
     }
 
-    public static void pay(int price) {
+    public static void pay(long price) {
         Game.estate -= price;
     }
 

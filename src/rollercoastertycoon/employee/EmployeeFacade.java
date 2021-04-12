@@ -1,6 +1,7 @@
 package rollercoastertycoon.employee;
 
 import rollercoastertycoon.constants.EmployeeType;
+import rollercoastertycoon.game.Game;
 import rollercoastertycoon.game.GameException;
 import rollercoastertycoon.util.TextColorUtil;
 
@@ -24,6 +25,20 @@ public class EmployeeFacade {
             positions[i] = new Position(EmployeeType.ACCOUNTANT);
             i++;
         }
+    }
+
+    public static int getEmployeeSalaries() {
+        int salary = 0;
+        for (Position position : positions) {
+            if (!position.isAvailable) {
+                salary += (int) (((float) Game.getEstate() / 100F) * (float) position.getEmployee().getCostPercentage());
+            }
+        }
+        return salary;
+    }
+
+    public static void payEmployees() {
+        Game.pay(getEmployeeSalaries());
     }
 
     public static void hireMaintainer(int efficiency) {

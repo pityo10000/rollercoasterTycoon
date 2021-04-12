@@ -120,7 +120,7 @@ public class GameController {
                     Game.printAllStatuses();
                     break;
                 case MOTHERLOAD:
-                    Game.addEstate(1_000_000);
+                    Game.addEstate(1_000_000_000L);
                     break;
                 default:
                     System.out.println("Wrong command! Try again!");
@@ -140,13 +140,13 @@ public class GameController {
             int position = Integer.parseInt(commandParts[1]);
             switch (position) {
                 case 1:
-                    EmployeeFacade.hireMaintainer(1);
+                    EmployeeFacade.hireMaintainer(3);
                     break;
                 case 2:
-                    EmployeeFacade.hireMaintainer(2);
+                    EmployeeFacade.hireMaintainer(4);
                     break;
                 case 3:
-                    EmployeeFacade.hireMaintainer(3);
+                    EmployeeFacade.hireMaintainer(5);
                     break;
                 case 4:
                     EmployeeFacade.hireAccountant();

@@ -3,7 +3,7 @@ package rollercoastertycoon.building;
 public interface Building {
     void build();
     void upgrade();
-    int getDefaultIncomePerVisitor();
+    int getIncomePerVisitor();
     int getDefaultPrice();
     int getPrice();
     boolean isBuilt();

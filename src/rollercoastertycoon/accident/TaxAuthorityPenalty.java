@@ -15,9 +15,9 @@ public class TaxAuthorityPenalty extends AbstractAccident {
     }
 
     @Override
-    public int getCost() {
-        int estate = Game.getEstate();
-        return Math.max(100_000, estate / 2);
+    public long getCost() {
+        long estate = Game.getEstate();
+        return Math.max(100_000L, estate / 2L);
     }
 
     @Override
